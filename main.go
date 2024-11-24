@@ -26,6 +26,8 @@ func main() {
 	mux := httpServer.HttpServer()
 	http.ListenAndServe(":8080", mux)
 
+	return
+
 	//for {
 	//	conn, err := ln.Accept()
 	//	if err != nil {
