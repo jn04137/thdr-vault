@@ -1,0 +1,96 @@
+
+{{ define "vault_page" }}
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/static/output.css">
+	<script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js" integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg" crossorigin="anonymous"></script>
+
+	<title>thdr-vault</title>
+</head>
+<body class="flex min-h-screen">
+	<main class="grow flex flex-col justify-center">
+		<div class="flex justify-center">
+			<div class="p-4 w-1/6 space-y-4 rounded-lg border shadow">
+				{{ template "table_title" }}
+				{{ template "keyvalue-table" . }}
+			</div>
+		</div>
+		<script>
+			function togglePassword() {
+
+			}
+		</script>
+	</main>
+</body>
+{{ end }}
+
+{{ define "table_title" }}
+	<div class="flex justify-between items-center">
+		<h1 class="text-4xl bold">thdr-vault</h1>
+		<div class="underline">
+			<a href="/">Go back</a>
+		</div>
+	</div>
+{{ end }}
+
+{{ define "keyvalue-table" }}
+<form class="space-y-2" hx-post="/add_secret" hx-swap="none">
+	<div class="border rounded-lg">
+		<table class="table-auto text-left w-full"> 
+			<tbody class="divide-y">
+				{{ template "secret_header" }}
+				{{ range .Secrets }}
+					{{ template "secret_row" . }}
+				{{ end }}
+				{{ template "add_secret" }}
+			</tbody>
+		</table>
+	</div>
+	<div class="flex justify-end">
+		<input 
+			type="submit"
+			value="Save"
+			class="px-4 py-1 bg-blue-600 rounded-lg text-white submit-pair hover:cursor-pointer">
+		</input>
+	</div>
+</form>
+{{ end }}
+
+{{ define "secret_header" }}
+	<tr class="divide-x text-lg">
+		<th class="py-3 px-2">Key</th>
+		<th class="py-3 px-2">Value</th>
+	</tr>
+{{ end }}
+
+{{ define "secret_row" }}
+	<tr class="divide-x text-sm">
+		<td class="py-2 px-2">{{ .Key }}</td>
+		<td class="py-2 px-2">{{ .Secret }}</td>
+		<td>
+			<button class="p-2 rounded-lg bg-red-600 text-white">Reveal</button>
+		</td>
+	</tr>
+{{ end }}
+
+{{ define "add_secret" }}
+	<tr class="divide-x text-sm">
+		<td>
+			<input 
+				name="key" 
+				type="text" 
+				placeholder="key"
+				class="p-2 w-full rounded-bl-lg"
+			/>
+		</td>
+		<td>
+			<input 
+				name="secret" 
+				type="text" 
+				placeholder="secret"
+				class="p-2 w-full rounded-br-lg"
+			/>
+		</td>
+	</tr>
+{{ end }}
+

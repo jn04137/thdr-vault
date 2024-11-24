@@ -1,0 +1,21 @@
+
+{{ define "main" }}
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/static/output.css">
+
+	<title>thdr-vault</title>
+</head>
+<body>
+	<main>
+		{{ template "custom-navbar" }}
+		This is the home page
+	</main>
+</body>
+{{ end }}
+
+{{ define "custom-navbar" }}
+<div>
+	<h1 class="text-4xl">thdr-vault</h1>
+</div>
+{{ end }}

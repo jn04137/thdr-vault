@@ -1,47 +1,45 @@
 package main
 
 import (
-	"fmt"
-	"io"
+	//"io"
 	"log"
-	"net"
 	"net/http"
+	//"net"
+
+	"thdr_vault_go/database"
+	"thdr_vault_go/http_server"
 )
 
 func main() {
-	ln, tcpErr := net.Listen("tcp4", ":8081")
-	if tcpErr != nil {
-		log.Println("Something went wrong!")
+	//ln, tcpErr := net.Listen("tcp4", ":8081")
+	//if tcpErr != nil {
+	//	log.Println("Something went wrong!")
+	//}
+
+	dbConn, err := database.InitDatabase("database/store/thdr-vault-database.sql")
+	if err != nil {
+		log.Printf("Failed to initialize sqlite: %v", err.Error())
 	}
+	defer dbConn.Close()
 
-	go httpServer()
+	httpServer := http_server.NewCustomHttpServer(dbConn)
+	mux := httpServer.HttpServer()
+	http.ListenAndServe(":8080", mux)
 
-	for {
-		conn, err := ln.Accept()
-		if err != nil {
-			log.Println("Error accepting message")
-		}
+	//for {
+	//	conn, err := ln.Accept()
+	//	if err != nil {
+	//		log.Println("Error accepting message")
+	//	}
 
-		go func(c net.Conn) {
-			tmp := make([]byte, 256)
-			conn.Read(tmp)
-			log.Printf("message: %s", tmp)
-			io.Copy(c, c)
-			c.Close()
-		}(conn)
-	}
-}
-
-func httpServer() {
-	port := ":8080"
-	http.HandleFunc("/", httpHandler)
-
-	log.Printf("Starting http server at port: %s", port)
-	log.Fatal(http.ListenAndServe(port, nil))
-}
-
-func httpHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "hi there! I love %v", r.URL.Path[1:])
+	//	go func(c net.Conn) {
+	//		tmp := make([]byte, 256)
+	//		conn.Read(tmp)
+	//		log.Printf("message: %s", tmp)
+	//		io.Copy(c, c)
+	//		c.Close()
+	//	}(conn)
+	//}
 }
 
 func tcpServer() {
