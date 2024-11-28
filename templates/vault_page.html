@@ -21,7 +21,7 @@
 		</div>
 		<script>
 			function togglePassword() {
-
+				console.log("togglePassword was clicked")
 			}
 		</script>
 	</main>
@@ -68,7 +68,13 @@
 		<td class="py-2 px-2">{{ .Key }}</td>
 		<td class="py-2 px-2">{{ .Secret }}</td>
 		<td>
-			<button class="py-2 w-full rounded-lg bg-red-600 text-white">show</button>
+			<button
+				type="button"
+				class="py-2 w-full rounded-lg bg-red-600 text-white"
+				onclick="togglePassword()"
+			>
+				show
+			</button>
 		</td>
 	</tr>
 {{ end }}
