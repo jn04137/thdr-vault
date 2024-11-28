@@ -1,7 +1,6 @@
 package http_server
 
 import (
-	"log"
 	"net/http"
 	"database/sql"
 
@@ -18,9 +17,7 @@ func NewCustomHttpServer(dbConn *sql.DB) *CustomHttpServer {
 	}
 }
 
-func (server *CustomHttpServer) HttpServer() *http.ServeMux {
-	port := ":8080"
-
+func (server *CustomHttpServer) GetMuxHandler() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	handler := handlers.NewCustomHandler(server.dbConn)
@@ -31,7 +28,6 @@ func (server *CustomHttpServer) HttpServer() *http.ServeMux {
 
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
-	log.Printf("Starting http server at port: %s", port)
 	return mux
 }
 

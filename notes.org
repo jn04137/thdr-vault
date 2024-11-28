@@ -1,0 +1,15 @@
+#+title: thdr_vault notes
+#+author: Jonathan Nguyen
+#+date: <2024-11-26 Tue>
+
+* thdr_vault notes
+** General
+This app is meant to serve as a store for labels and passwords that applications
+and microservices can call to retrieve environment variables and secrets. There
+are already a lot of services that provide this feature, but I wanted to implement
+one myself.
+
+** Todos
+*** TODO Make reveal and unveal feature work in vault page
+*** TODO Have to encrypt and decrypt saved data
+*** TODO implement GRPC for app to get environment variables

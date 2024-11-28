@@ -1,10 +1,12 @@
 package main
 
 import (
-	//"io"
+	"context"
 	"log"
 	"net/http"
-	//"net"
+	"os"
+	"os/signal"
+	"time"
 
 	"thdr_vault_go/database"
 	"thdr_vault_go/http_server"
@@ -16,15 +18,31 @@ func main() {
 	//	log.Println("Something went wrong!")
 	//}
 
+	port := ":8083"
 	dbConn, err := database.InitDatabase("database/store/thdr-vault-database.sql")
 	if err != nil {
 		log.Printf("Failed to initialize sqlite: %v", err.Error())
 	}
 	defer dbConn.Close()
 
-	httpServer := http_server.NewCustomHttpServer(dbConn)
-	mux := httpServer.HttpServer()
-	http.ListenAndServe(":8080", mux)
+	customServer := http_server.NewCustomHttpServer(dbConn)
+	mux := customServer.GetMuxHandler()
+
+	server := http.Server{
+		Addr: port,
+		Handler: mux,
+	}
+	err = server.ListenAndServe()
+	if err != nil {
+		log.Printf("Something went wrong starting server: %v", err.Error())
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 0*time.Second)
+	defer cancel()
+	server.Shutdown(ctx)
+
+	// Kill all thread when signal sent to process
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, os.Kill)
 
 	return
 
@@ -44,6 +62,6 @@ func main() {
 	//}
 }
 
-func tcpServer() {
-
-}
+//func tcpServer() {
+//
+//}

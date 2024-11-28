@@ -10,6 +10,7 @@ type SecretRepo struct {
 }
 
 type Secret struct {
+	Id int
 	Key string
 	Secret string
 }
@@ -22,7 +23,7 @@ func CreateSecretRepo(dbConn *sql.DB) *SecretRepo {
 
 func (secretRepo *SecretRepo) GetSecrets() ([]Secret, error) {
 	dbConn := secretRepo.dbConn
-	getSecrets := `select key, value from secret;`
+	getSecrets := `select id, key, value from secret;`
 	rows, err := dbConn.Query(getSecrets)
 	if err != nil {
 		log.Printf("failed at query: %v", err.Error())
@@ -32,7 +33,7 @@ func (secretRepo *SecretRepo) GetSecrets() ([]Secret, error) {
 	var secrets []Secret
 	for rows.Next() {
 		var secret Secret
-		if rowErr := rows.Scan(&secret.Key, &secret.Secret); err != nil {
+		if rowErr := rows.Scan(&secret.Id, &secret.Key, &secret.Secret); rowErr != nil {
 			log.Printf("Failed to convert sql result to list: %v", rowErr.Error())
 			return nil, rowErr
 		}

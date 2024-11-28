@@ -3,7 +3,11 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/static/output.css">
-	<script src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js" integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg" crossorigin="anonymous"></script>
+	<script
+		src="https://unpkg.com/htmx.org@2.0.3/dist/htmx.js"
+		integrity="sha384-BBDmZzVt6vjz5YbQqZPtFZW82o8QotoM7RUp5xOxV3nSJ8u2pSdtzFAbGKzTlKtg"
+		crossorigin="anonymous">
+	</script>
 
 	<title>thdr-vault</title>
 </head>
@@ -47,11 +51,6 @@
 		</table>
 	</div>
 	<div class="flex justify-end">
-		<input 
-			type="submit"
-			value="Save"
-			class="px-4 py-1 bg-blue-600 rounded-lg text-white submit-pair hover:cursor-pointer">
-		</input>
 	</div>
 </form>
 {{ end }}
@@ -60,15 +59,16 @@
 	<tr class="divide-x text-lg">
 		<th class="py-3 px-2">Key</th>
 		<th class="py-3 px-2">Value</th>
+		<th class="py-3 px-2">Reveal</th>
 	</tr>
 {{ end }}
 
 {{ define "secret_row" }}
-	<tr class="divide-x text-sm">
+	<tr data-secret-id="{{ .Id }}" class="divide-x text-sm">
 		<td class="py-2 px-2">{{ .Key }}</td>
 		<td class="py-2 px-2">{{ .Secret }}</td>
 		<td>
-			<button class="p-2 rounded-lg bg-red-600 text-white">Reveal</button>
+			<button class="py-2 w-full rounded-lg bg-red-600 text-white">show</button>
 		</td>
 	</tr>
 {{ end }}
@@ -88,8 +88,15 @@
 				name="secret" 
 				type="text" 
 				placeholder="secret"
-				class="p-2 w-full rounded-br-lg"
+				class="p-2 w-full"
 			/>
+		</td>
+		<td>
+			<input 
+				type="submit"
+				value="Add"
+				class="p-2 w-full bg-blue-600 rounded-lg text-white submit-pair hover:cursor-pointer">
+			</input>
 		</td>
 	</tr>
 {{ end }}

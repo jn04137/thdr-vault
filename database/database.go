@@ -29,8 +29,10 @@ func initializeTables(dbConn *sql.DB) {
 
 	createSecretsTable := `CREATE TABLE IF NOT EXISTS secret (
 		id INTEGER PRIMARY KEY NOT NULL,
-		key VARCHAR(100) NOT NULL,
-		value VARCHAR(250) NOT NULL
+		key VARCHAR(100) NOT NULL UNIQUE,
+		value VARCHAR(250) NOT NULL,
+		check(key <> ''),
+		check(value <> '')
 	);`
 
 	_, err = dbConn.Exec(createSecretsTable)
