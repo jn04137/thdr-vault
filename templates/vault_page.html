@@ -20,8 +20,11 @@
 			</div>
 		</div>
 		<script>
-			function togglePassword() {
-				console.log("togglePassword was clicked")
+			function togglePassword(id) {
+				const element = document.getElementById(`secret_id_${id}`)
+				element.innerHTML = "XXXXXX"
+				console.log(element)
+				console.log("togglePassword was clicked", id)
 			}
 		</script>
 	</main>
@@ -66,12 +69,12 @@
 {{ define "secret_row" }}
 	<tr data-secret-id="{{ .Id }}" class="divide-x text-sm">
 		<td class="py-2 px-2">{{ .Key }}</td>
-		<td class="py-2 px-2">{{ .Secret }}</td>
+		<td id="secret_id_{{ .Id }}" class="py-2 px-2">{{ .Secret }}</td>
 		<td>
 			<button
 				type="button"
 				class="py-2 w-full rounded-lg bg-red-600 text-white"
-				onclick="togglePassword()"
+				onclick="togglePassword({{.Id}})"
 			>
 				show
 			</button>
