@@ -14,25 +14,31 @@
 <body class="flex min-h-screen">
 	<main class="grow flex flex-col justify-center">
 		<div class="flex justify-center">
-			<div class="p-4 w-1/6 space-y-4 rounded-lg border shadow">
+			<div class="p-4 w-5/12 space-y-4 rounded-lg border shadow">
 				{{ template "table_title" }}
 				{{ template "keyvalue-table" . }}
 			</div>
 		</div>
 		<script>
 			function togglePassword(id) {
-				const element = document.getElementById(`secret_id_${id}`)
-				const elementType = element.getAttribute("type")
-				const copyElement = element.cloneNode(true)
+				const secretElement = document.getElementById(`secret_id_${id}`)
+				const elementType = secretElement.getAttribute("type")
+				const secretElementCopy = secretElement.cloneNode(true)
+
+				const hideBtn = document.getElementById(`btn_secret_id_${id}`)
+				const hideBtnCopy = hideBtn.cloneNode(true)
 
 				if(elementType === "text") {
-					copyElement.setAttribute("type", "password")
+					secretElementCopy.setAttribute("type", "password")
+					hideBtnCopy.className = "py-2 w-full rounded-lg bg-green-600"
+					hideBtnCopy.innerHTML = "Show"
 				} else {
-					copyElement.setAttribute("type", "text")
+					secretElementCopy.setAttribute("type", "text")
+					hideBtnCopy.className = "py-2 w-full rounded-lg bg-red-600"
+					hideBtnCopy.innerHTML = "Hide"
 				}
-				element.replaceWith(copyElement)
-				console.log(element)
-				console.log("togglePassword was clicked", id)
+				secretElement.replaceWith(secretElementCopy)
+				hideBtn.replaceWith(hideBtnCopy)
 			}
 		</script>
 	</main>
@@ -75,13 +81,14 @@
 {{ end }}
 
 {{ define "secret_row" }}
-	<tr data-secret-id="{{ .Id }}" class="divide-x text-sm">
+	<tr class="divide-x text-sm">
 		<td class="py-2 px-2">{{ .Key }}</td>
 		<td class="py-2 px-2" >
 			<input id="secret_id_{{ .Id }}" value="{{ .Secret }}" type="password"/>
 		</td>
 		<td>
 			<button
+				id="btn_secret_id_{{ .Id }}"
 				type="button"
 				class="py-2 w-full rounded-lg bg-red-600 text-white"
 				onclick="togglePassword({{.Id}})"
