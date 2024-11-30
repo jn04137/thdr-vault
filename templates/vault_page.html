@@ -22,7 +22,15 @@
 		<script>
 			function togglePassword(id) {
 				const element = document.getElementById(`secret_id_${id}`)
-				element.innerHTML = "XXXXXX"
+				const elementType = element.getAttribute("type")
+				const copyElement = element.cloneNode(true)
+
+				if(elementType === "text") {
+					copyElement.setAttribute("type", "password")
+				} else {
+					copyElement.setAttribute("type", "text")
+				}
+				element.replaceWith(copyElement)
 				console.log(element)
 				console.log("togglePassword was clicked", id)
 			}
@@ -69,7 +77,9 @@
 {{ define "secret_row" }}
 	<tr data-secret-id="{{ .Id }}" class="divide-x text-sm">
 		<td class="py-2 px-2">{{ .Key }}</td>
-		<td id="secret_id_{{ .Id }}" class="py-2 px-2">{{ .Secret }}</td>
+		<td class="py-2 px-2" >
+			<input id="secret_id_{{ .Id }}" value="{{ .Secret }}" type="password"/>
+		</td>
 		<td>
 			<button
 				type="button"

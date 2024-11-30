@@ -33,7 +33,7 @@ func main() {
 		Handler: mux,
 	}
 	err = server.ListenAndServe()
-	if err != nil {
+	if err
 		log.Printf("Something went wrong starting server: %v", err.Error())
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 0*time.Second)
