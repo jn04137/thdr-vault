@@ -7,9 +7,18 @@
 	<title>thdr-vault</title>
 </head>
 <body>
-	<main>
-		{{ template "custom-navbar" }}
-		This is the home page
+	<main class="flex flex-col justify-center min-h-screen">
+		<div class="flex justify-center">
+			<div class="border rounded-lg p-6">
+				<h1 class="text-4xl">thdr-vault</h1>
+				<a
+					href="/vault_page"
+					class="underline"
+				>
+					Go to vault
+				</a>
+			</div>
+		</div>
 	</main>
 </body>
 {{ end }}

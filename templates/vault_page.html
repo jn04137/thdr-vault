@@ -30,11 +30,11 @@
 
 				if(elementType === "text") {
 					secretElementCopy.setAttribute("type", "password")
-					hideBtnCopy.className = "py-2 w-full rounded-lg bg-green-600"
+					hideBtnCopy.className = "py-2 w-full rounded-lg bg-green-600 text-white"
 					hideBtnCopy.innerHTML = "Show"
 				} else {
 					secretElementCopy.setAttribute("type", "text")
-					hideBtnCopy.className = "py-2 w-full rounded-lg bg-red-600"
+					hideBtnCopy.className = "py-2 w-full rounded-lg bg-red-600 text-white"
 					hideBtnCopy.innerHTML = "Hide"
 				}
 				secretElement.replaceWith(secretElementCopy)
@@ -86,11 +86,11 @@
 		<td class="py-2 px-2" >
 			<input id="secret_id_{{ .Id }}" value="{{ .Secret }}" type="password"/>
 		</td>
-		<td>
+		<td class="flex justify-center items-center">
 			<button
 				id="btn_secret_id_{{ .Id }}"
 				type="button"
-				class="py-2 w-full rounded-lg bg-red-600 text-white"
+				class="py-1 w-[70px] rounded-lg bg-red-600 text-white"
 				onclick="togglePassword({{.Id}})"
 			>
 				show
@@ -117,11 +117,11 @@
 				class="p-2 w-full"
 			/>
 		</td>
-		<td>
+		<td class="flex justify-center">
 			<input 
 				type="submit"
 				value="Add"
-				class="p-2 w-full bg-blue-600 rounded-lg text-white submit-pair hover:cursor-pointer">
+				class="py-1 w-[70px] bg-blue-600 rounded-lg text-white submit-pair hover:cursor-pointer">
 			</input>
 		</td>
 	</tr>
